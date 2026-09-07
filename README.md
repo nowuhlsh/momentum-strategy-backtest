@@ -18,7 +18,7 @@ Some examples of EDA applied:
 * LSE ticker conventions were standardised where required (for example, BT.A was mapped to BT-A for Yahoo Finance).
 * Price data was retained only where the available price history corresponded to trading on the LSE. EDV was excluded before June 2021 as this data was related to its prior Toronto listing.
 
-THe backtest covers 01-01-2015 - 01-08-2025.
+The backtest covers 01-01-2015 - 01-08-2025.
 
 ### Momentum Signal
 The signal is based on **12-2 total-return momentum**. As the data is adjusted for dividends and stock shares, for stock \(i\) at month \(t\) the signal is calculated as:

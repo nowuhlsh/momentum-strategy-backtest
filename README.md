@@ -21,16 +21,16 @@ Some examples of EDA applied:
 The backtest covers 31-01-2015 - 31-07-2026.
 
 ### Momentum Signal
-The signal is based on **12-2 total-return momentum**. As the data is adjusted for dividends and stock shares, for stock \(i\) at month \(t\) the signal is calculated as:
+The signal is based on **12-2 total-return momentum**. As the data is adjusted for dividends and stock shares, for stock $\(i\$) at month $\(t\)$ the signal is calculated as:
 
 $$
 M_{i,t} = \frac{P_{i,t-1}}{P_{i,t-12}} - 1
 $$
 
 where:
-* \(M_{i,t}\) = momentum signal for stock \(i\) at month \(t\)
-* \(P_{i,t-1}\) = adjusted price at the end of the most recent completed month
-* \(P_{i,t-12}\) = adjusted price 12 months previously
+* $\(M_{i,t}\)$ = momentum signal for stock $\(i\)$ at month $\(t\)$
+* $\(P_{i,t-1}\)$ = adjusted price at the end of the most recent completed month
+* $\(P_{i,t-12}\)$ = adjusted price 12 months previously
 
 
 ### Constructing portfolios
@@ -40,9 +40,9 @@ $$
 w_{i,t} = \frac{1}{N}
 $$
 
-where \(N\) is the number of stocks selected, and we test different values later down the line.
+where $\(N\)$ is the number of stocks selected, and we test different values later down the line.
 
-The portfolio is rebalanced monthly, and the return of the portfolio for month \(\t) is calculated as the weighted sum of the stock returns.
+The portfolio is rebalanced monthly, and the return of the portfolio for month $\(t\)$ is calculated as the weighted sum of the stock returns.
 
 It is vital that the momentum signal is aligned properly with the date of the returns to avoid **look-ahead bias**. For example, a signal formed from returns known at the end of January should not form a portfolio that generates returns over January.
 
@@ -52,7 +52,7 @@ To provide a comparison for the strategy, an equally weighted benchmark is const
 ### Transaction Costs
 Transaction costs are incorporated to make the backtest more representative of a realistic strategy, especially for a momentum strategy where there is a high turnover each month. Research informed the assumption of a **50 bps Stamp Duty Reserve Tax (SDRT) on purchases** with **no cost associated with selling a stock**.
 
-Turnover at each rebalancing was calculated using the signals matrix. The sum of the absolute values of the row vector formed by the subtraction of row \(t-1\) and \(t\) gives the number of turnovers. As there is a constant number of stocks in the portfolio, it is apparent that every sale demands a purchase. Therefore the number of purchases is equal to half the turnover. Note that the first month of the backtest demands *N* purchases.
+Turnover at each rebalancing was calculated using the signals matrix. The sum of the absolute values of the row vector formed by the subtraction of row $\(t-1\)$ and $\(t\)$ gives the number of turnovers. As there is a constant number of stocks in the portfolio, it is apparent that every sale demands a purchase. Therefore the number of purchases is equal to half the turnover. Note that the first month of the backtest demands *N* purchases.
 
 ## Backtest design
 ### Training 
@@ -72,16 +72,16 @@ Sharpe ratio measures the return generated relative to the volatility of the ret
 
 $$
 Sharpe =
-\frac{\overline{R_p-R_f}}
-{\sigma(R_p-R_f)}
+\frac{R_p-R_f}
+{\sigma}
 \sqrt{12}
 $$
 
 where:
-*  \(R_p\) = portfolio return
-*  \(R_f\) = risk-free rate
-*  \(\sigma\) = standard deviation
-*  \(\sqrt{12}\) annualises the monthly calculation
+*  $\(R_p\)$ = portfolio return
+*  $\(R_f\)$ = risk-free rate
+*  $\(\sigma\)$ = standard deviation
+*  $\(\sqrt{12}\)$ annualises the monthly calculation
 
 Risk-free rate of 0% was assumed
 

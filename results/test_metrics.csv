@@ -1,2 +1,4 @@
-,Lookback Period,N,Sharpe Ratio,Annualised Return,Maximum Drawdown
-0,9,20,0.786451429517102,0.11091297771070074,-0.1289409497662789
+,Metric
+Sharpe Ratio,0.786451429517102
+Annualised Return,0.11091297771070074
+Maximum Drawdown,-0.1289409497662789

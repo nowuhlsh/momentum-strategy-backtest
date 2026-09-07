@@ -75,7 +75,9 @@ test_results, test_returns = metrics(chosen_lookback, chosen_n, test_start, test
 print("\nTest Results")
 print(test_results.to_string(index = False))
 
-test_results.to_csv("results/test_metrics.csv")
+test_metrics = {"Sharpe Ratio": test_results["Sharpe Ratio"].iloc[0], "Annualised Return": test_results["Annualised Return"].iloc[0], "Maximum Drawdown": test_results["Maximum Drawdown"].iloc[0]}
+test_metrics_df = pd.DataFrame.from_dict(test_metrics, orient = "index", columns = ["Metric"])
+test_metrics_df.to_csv("results/test_metrics.csv")
 
 #GETTING BENCHMARK
 benchmark_returns = monthly_returns.loc[test_start:test_end].mean(axis=1)
@@ -96,7 +98,7 @@ bm_max_drawdown = bm_drawdown.min()
 
 print("\nEqual-weight Universe-matched Benchmark")
 bm_metrics = {"Sharpe Ratio": bm_sharpe, "Annualised Return": bm_annualised_return, "Maximum Drawdown": bm_max_drawdown}
-bm_metrics_df = pd.DataFrame.from_dict(bm_metrics, orient="index", columns = ["Metric"])
+bm_metrics_df = pd.DataFrame.from_dict(bm_metrics, orient = "index", columns = ["Metric"])
 bm_metrics_df.to_csv("results/benchmark_metrics.csv")
 for metric, value in bm_metrics.items():
     print(f"{metric}: {value:6f}")

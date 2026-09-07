@@ -18,7 +18,7 @@ Some examples of EDA applied:
 * LSE ticker conventions were standardised where required (for example, BT.A was mapped to BT-A for Yahoo Finance).
 * Price data was retained only where the available price history corresponded to trading on the LSE. EDV was excluded before June 2021 as this data was related to its prior Toronto listing.
 
-The backtest covers 01-01-2015 - 01-08-2025.
+The backtest covers 31-01-2015 - 31-07-2026.
 
 ### Momentum Signal
 The signal is based on **12-2 total-return momentum**. As the data is adjusted for dividends and stock shares, for stock \(i\) at month \(t\) the signal is calculated as:
@@ -56,7 +56,42 @@ Turnover at each rebalancing was calculated using the signals matrix. The sum of
 
 ## Backtest design
 ### Training 
-Two strategy parameters are test over a training period: 01-01-2015 - 
+Two strategy parameters are tested over a training period with data from: 31-01-2015 - 31-12-2021, with the portfolio generating returns starting 29-02-2016 to ensure that even when lookback period changed the trading began at the same date.
+
+The parameters considered:
+* Momentum lookback period - 3, 6, 9, 12 months
+* Number of stocks selected - 10, 15, 20, 25
+
+The purpose of the training period being to identify a suitable strategy specification before evaluating its performance on a out-of-sample testing period. Once strategy specifications were chosen, they are tested only once out-of-sample to avoid trying to evaluate a strategy by using parameters selected using information from the testing period.
+
+### Testing
+The test was performed from dates 31-01-2022 - 31-07-2026, and evaluated using three performance metrics.
+
+#### Sharpe Ratio
+Sharpe ratio measures the return generated relative to the volatility of the returns. A higher Sharpe ratio indicates greater return per unit of risk, and annualised Sharpe ratio is calculated by:
+
+$$
+Sharpe =
+\frac{\overline{R_p-R_f}}
+{\sigma(R_p-R_f)}
+\sqrt{12}
+$$
+
+where:
+*  \(R_p\) = portfolio return
+*  \(R_f\) = risk-free rate
+*  \(\sigma\) = standard deviation
+*  \(\sqrt{12}\) annualises the monthly calculation
+
+Risk-free rate of 0% was assumed
+
+#### Maximum Drawdown
+Maximum drawdown measures the largest peak-to-trough decline in portfolio value, providing an indication on volatility and risk.
+
+#### Annualised returns
+
+
+
 
 
 

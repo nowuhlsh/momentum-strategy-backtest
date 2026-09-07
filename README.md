@@ -50,7 +50,7 @@ It is vital that the momentum signal is aligned properly with the date of the re
 To provide a comparison for the strategy, an equally weighted benchmark is constructed. The benchmark just assigns equal weights to each eligible stock at that rebalancing, giving a baseline for whether the selected stocks generate meaningful returns.
 
 ### Transaction Costs
-Transaction costs are incorporated to make the backtest more representative of a realistic strategy, especially for a momentum strategy where there is a high turnover each month. Research informed the assumption of a **0.5 Stamp Duty Reserve Tax (SDRT) on purchases** with **no cost associated with selling a stock**.
+Transaction costs are incorporated to make the backtest more representative of a realistic strategy, especially for a momentum strategy where there is a high turnover each month. Research informed the assumption of a **50 bps Stamp Duty Reserve Tax (SDRT) on purchases** with **no cost associated with selling a stock**.
 
 Turnover at each rebalancing was calculated using the signals matrix. The sum of the absolute values of the row vector formed by the subtraction of row \(t-1\) and \(t\) gives the number of turnovers. As there is a constant number of stocks in the portfolio, it is apparent that every sale demands a purchase. Therefore the number of purchases is equal to half the turnover. Note that the first month of the backtest demands *N* purchases.
 

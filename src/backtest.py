@@ -75,8 +75,10 @@ test_results, test_returns = metrics(chosen_lookback, chosen_n, test_start, test
 print("\nTest Results")
 print(test_results.to_string(index = False))
 
+test_results.to_csv("results/test_metrics.csv")
+
 #GETTING BENCHMARK
-benchmark_returns = monthly_returns.mean(axis=1).loc[test_start:test_end]
+benchmark_returns = monthly_returns.loc[test_start:test_end].mean(axis=1)
 
 #sharpe ratio
 bm_sharpe = (benchmark_returns.mean() / benchmark_returns.std()) * np.sqrt(12)
@@ -94,8 +96,12 @@ bm_max_drawdown = bm_drawdown.min()
 
 print("\nEqual-weight Universe-matched Benchmark")
 bm_metrics = {"Sharpe Ratio": bm_sharpe, "Annualised Return": bm_annualised_return, "Maximum Drawdown": bm_max_drawdown}
+bm_metrics_df = pd.DataFrame.from_dict(bm_metrics, orient="index", columns = ["Metric"])
+bm_metrics_df.to_csv("results/benchmark_metrics.csv")
 for metric, value in bm_metrics.items():
     print(f"{metric}: {value:6f}")
+
+
 
 capital = 10000
 benchmark_value = capital * (1 + benchmark_returns).cumprod()
@@ -103,4 +109,5 @@ test_value = capital * (1 + test_returns).cumprod()
 plt.plot(benchmark_returns.index, benchmark_value, label = "Benchmark")
 plt.plot(test_returns.index, test_value, label = "Strategy")
 plt.legend()
+plt.savefig("results/equity_curve.png", dpi=300)
 plt.show()

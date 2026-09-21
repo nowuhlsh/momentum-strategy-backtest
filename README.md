@@ -6,12 +6,12 @@ As a mathematics student, I'm interested in how areas like the financial sector 
 
 ## Methodology
 ### Universe
-The universe on which this strategy is used is the FTSE 100 constituents as of *2026/08/01*. The limitation this poses is potential for survivorship bias: we don't face the threat of investing in companies that left the exchange or no longer exist. For a future project, I would like to source an even more complex source of data which can indicate the time of entry and exit from the exchange. To be clear, the data I used was data only pertained from the company whilst it was listed on the London Stock Exchange (LSE).
+The universe on which this strategy is used is the FTSE 100 constituents as of *2026/08/01*. The limitation this poses is potential for survivorship bias: the universe excludes companies that were delisted or removed before that date, which biases results upwards. For a future project, I would like to source an even more complex source of data which can indicate the time of entry and exit from the exchange. To be clear, the data I used was data only pertained from the company whilst it was listed on the London Stock Exchange (LSE).
 
 ### Data
 The data I used is sourced from Yahoo Finance. By no means is this project intended for trading or investing purposes or advice, it is for informational and exploratory purposes only.
 
-Upon extracting the daily adjusted close prices, using *Pandas* I first resampled the data to reflect the monthly close price for each stock. Then, checking for duplicates, missing values and large swings were vital - this could imply an acquistition or stock split took place and may have to be adjusted for, although this did not occur in the data.
+Upon extracting the daily adjusted close prices, using *Pandas* I first resampled the data to reflect the monthly close price for each stock. Then, checking for duplicates, missing values and large swings were vital - this could imply an acquisition or stock split took place and may have to be adjusted for, although this did not occur in the data.
 
 Additionally, after checking for missing values I needed to research the company's history on the exchange and found two particular cases of data that would need to be adjusted. Pershing Square Holdings (PSH) officially entered the LSE on 2 May 2017, but had data during the months of March and April from its listing on the Euronext Amsterdam. I chose to exclude these months as the backtest should only use prices on the LSE.
 
@@ -30,7 +30,7 @@ where $M_{t}$ denotes the momentum at month $t$, $L$ denotes the lookback period
 Then, the stocks are ranked by momentum and the top stocks are chosen to invest in. The number of stocks invested in was also a parameter that I wanted to vary, and would test different values during the training period.
 
 #### Signals and Weights
-At each rebalancing date, the top $N$ stocks by momentum are selected. This is stored as a binary signal matrix $S$, where each row is a data, and each column is a stock.
+At each rebalancing date, the top $N$ stocks by momentum are selected. This is stored as a binary signal matrix $S$, where each row is a date, and each column is a stock.
 
 $$
 S_{t,i} = 
@@ -49,7 +49,7 @@ To avoid look-ahead bias, the weights computed at month $t$ are applied to retur
 #### Transaction Costs
 In a momentum strategy, portfolio turnover is high so it was important to implement transaction costs to retain realism.
 
-Research informed the decision to place a 5bps SDRT on purchases, with no transaction tax for sales as of HMRC.
+Research informed the decision to place a 50bps SDRT on purchases, with no transaction tax for sales as of HMRC.
 
 Turnover was calculated for month $t$ as the sum of the absolute differences between row $t$ and row $t-1$ of the signal matrix. The number of purchases is exactly half the turnover, with the exception of the first month of trading where a tax is applied to all $N$ purchases.
 
@@ -60,17 +60,17 @@ It was important that overfitting did not occur, once parameters were chosen for
 
 The training period occurred from *2015-01-01* to *2021-12-31* trading only from *2016-02-29* as 12 months of price data was required for the largest lookback period.
 
-Each month, portfolio returns is the product of the sum of the lagged weights and the month's stock returns. Transaction costs are then deducted to give net porfolio returns.
+Each month, portfolio returns is the product of the sum of the lagged weights and the month's stock returns. Transaction costs are then deducted to give net portfolio returns.
 
 Over the training period, all combinations of lookback period (3, 6, 9, 12 months) and portfolio size ( 10, 15, 20,25) stocks were evaluated. The chosen parameters (9-2 lookback, 20 stocks) were chosen according to three metrics.
 
 ### Metrics
-Strategies were evaluted using three metrics calculated from monthly returns:
+Strategies were evaluated using three metrics calculated from monthly returns:
 
-**Sharpe ratio**: mean monthly return of the portfolio $R_p$ divided by its standard deviation $\delta_p$. A risk free rate of 0% was assumed meaning it was calculated by:
+**Sharpe ratio**: mean monthly return of the portfolio $R_p$ divided by its standard deviation $\sigma_p$. A annualistation factor of $\sqrt{12}$ is required also as,. A risk free rate of 0% was assumed meaning it was calculated by:
 
 $$
-S = \frac{R_p}{\delta_p}
+S = \frac{R_p \cdot \sqrt{12}}{\sigma_p}
 $$
 
 **Annualised return**: the compound yearly return over the period calculated by
@@ -81,7 +81,7 @@ $$
 
 where $r_t$ is the net return in month $t$ and $T$ is the number of months in the period
 
-**Maximum Drawdown**: largest peak-to-trough fall in porfolio value over the period. It is calculted by tracking the cumulative porfolio value and its running peak, and computing drawdown at each month from this peak. The most negative drawdown is thus chosen.
+**Maximum Drawdown**: largest peak-to-trough fall in portfolio value over the period. It is calculated by tracking the cumulative portfolio value and its running peak, and computing drawdown at each month from this peak. The most negative drawdown is thus chosen.
 
 These three metrics were then used to evaluate the 9-2 month momentum strategy, and the benchmark, with the results shown here as an equity curve, and the metrics.
 
@@ -93,7 +93,7 @@ These three metrics were then used to evaluate the 9-2 month momentum strategy, 
 | Annualised Return | 11.1%    | 9.9%      |
 | Maximum Drawdown  | -12.9%   | -15.6%    |
 
-### Results
+### Conclusion
 
 Over the test period, the strategy matched the benchmark on risk-adjusted return (Sharpe of 0.786 vs 0.779), and modestly bested it on annualised return (11.1% vs 9.9%).
 

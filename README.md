@@ -19,7 +19,11 @@ Secondly, Endeavour Mining plc (EDV) had prices from before its listing on the L
 
 ### Strategy
 The strategy itself is a 12-2 month total-return momentum strategy. This means that we first had to calculate the momentum for each company, every month. This was done by the calculation: 
-$$ M_{t} = \frac{p_{t-2}}{p_{t-12}} $$
+
+$$ 
+M_{t} = \frac{p_{t-2}}{p_{t-12}} - 1
+$$
+where $M_{t}$ denotes the momentum at month $t$, $p_{t-2}$ denotes the share price at month $t-2$, and $p_{t-12}$ denotes the share price at month $t-12$. This means that we are calculating the change in price over the year, and we use 2 months in the past to avoid short-term reversal - over a short time horizon outliers tend to reverse. 
 
 
 

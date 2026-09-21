@@ -34,7 +34,8 @@ At each rebalancing date, the top $N$ stocks by momentum are selected. This is s
 
 $$
 S_{t,i} = 
-\begin{cases} 1 & \text{if stock} i \text{is in the top} N \text{by momentum} \\ 0 & \text{otherwise} \end{cases}
+\begin{cases} 1 & \text{if stock} \space i \space \text{is in the top}\space  N \space \text{by momentum} \\ 
+0 & \text{otherwise} \end{cases}
 $$
 
 We equally weighted the investment across the top $N$ stocks, so portfolio weights were stored in a similar matrix $W$ where:

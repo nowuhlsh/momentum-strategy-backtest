@@ -67,7 +67,7 @@ Over the training period, all combinations of lookback period (3, 6, 9, 12 month
 ### Metrics
 Strategies were evaluated using three metrics calculated from monthly returns:
 
-**Sharpe ratio**: mean monthly return of the portfolio $R_p$ divided by its standard deviation $\sigma_p$. A annualistation factor of $\sqrt{12}$ is required also as,. A risk free rate of 0% was assumed meaning it was calculated by:
+**Sharpe ratio**: mean monthly return of the portfolio $R_p$ divided by its standard deviation $\sigma_p$. A annualistation factor of $\sqrt{12}$ is required also as, monthly returns are independent. A risk free rate of 0% was assumed meaning it was calculated by:
 
 $$
 S = \frac{R_p \cdot \sqrt{12}}{\sigma_p}
